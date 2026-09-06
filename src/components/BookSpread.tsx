@@ -24,6 +24,9 @@ interface BookSpreadProps {
   onDeleteFootnote: (pageId: string, footnoteId: string) => void;
   onSelectPage: (pageId: string) => void;
   onAddNewPage: (afterPageId?: string) => void;
+  onPageOverflow?: (pageId: string, overflowHtml: string) => void;
+  onNavigatePrevPage?: (pageId: string) => void;
+  onNavigateNextPage?: (pageId: string) => void;
 }
 
 export const BookSpread: React.FC<BookSpreadProps> = ({
@@ -40,6 +43,9 @@ export const BookSpread: React.FC<BookSpreadProps> = ({
   onDeleteFootnote,
   onSelectPage,
   onAddNewPage,
+  onPageOverflow,
+  onNavigatePrevPage,
+  onNavigateNextPage,
 }) => {
   // Sort all pages by pageNumber
   const allPagesList = Object.values(pages).sort((a, b) => a.pageNumber - b.pageNumber);
@@ -163,6 +169,9 @@ export const BookSpread: React.FC<BookSpreadProps> = ({
                 onUpdateFootnote={onUpdateFootnote}
                 onDeleteFootnote={onDeleteFootnote}
                 onSelectPage={onSelectPage}
+                onPageOverflow={onPageOverflow}
+                onNavigatePrevPage={onNavigatePrevPage}
+                onNavigateNextPage={onNavigateNextPage}
                 viewMode={settings.viewMode}
               />
             )}
@@ -195,6 +204,9 @@ export const BookSpread: React.FC<BookSpreadProps> = ({
                   onUpdateFootnote={onUpdateFootnote}
                   onDeleteFootnote={onDeleteFootnote}
                   onSelectPage={onSelectPage}
+                  onPageOverflow={onPageOverflow}
+                  onNavigatePrevPage={onNavigatePrevPage}
+                  onNavigateNextPage={onNavigateNextPage}
                   viewMode={settings.viewMode}
                 />
               ) : (

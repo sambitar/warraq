@@ -33,9 +33,16 @@ export function useBookState() {
     return INITIAL_MANUSCRIPT;
   });
 
-  const [activePageId, setActivePageId] = useState<string>(manuscript.activePageId || 'p-1');
+  const activePageId = manuscript.activePageId || 'p-1';
   const [activeFootnoteId, setActiveFootnoteId] = useState<string | null>(null);
   const saveTimeoutRef = useRef<number | null>(null);
+
+  const setActivePageId = useCallback((pageId: string) => {
+    setManuscript((prev) => ({
+      ...prev,
+      activePageId: pageId,
+    }));
+  }, []);
 
   // Auto-save debounced to localStorage
   useEffect(() => {
@@ -93,18 +100,20 @@ export function useBookState() {
   }, []);
 
   // Add a new physical page after currentPageId or at the end of the chapter
-  const addNewPage = useCallback((afterPageId?: string) => {
+  const addNewPage = useCallback((afterPageId?: string, initialContent?: string) => {
+    let createdPageId = '';
     setManuscript((prev) => {
       const targetPageId = afterPageId || activePageId;
       const targetPage = prev.pages[targetPageId];
       const targetChapterId = targetPage ? targetPage.chapterId : prev.activeChapterId;
       
       const newPageId = `p-${Date.now()}`;
+      createdPageId = newPageId;
       const newPage: BookPage = {
         id: newPageId,
         pageNumber: 0, // will be recomputed
         chapterId: targetChapterId,
-        htmlContent: '<p>اكتب نص الصفحة هنا...</p>',
+        htmlContent: initialContent !== undefined ? initialContent : '<p><br/></p>',
         footnotes: [],
       };
 
@@ -135,11 +144,111 @@ export function useBookState() {
         activePageId: newPageId,
       };
     });
-    // Set active page to newly created page
-    setTimeout(() => {
-      setActivePageId((prev) => prev);
-    }, 50);
+
+    return createdPageId;
   }, [activePageId, recomputePageNumbers]);
+
+  // Auto-pagination: Split overflow content onto next page or create a new page
+  const handlePageOverflow = useCallback((fromPageId: string, overflowHtml: string) => {
+    if (!overflowHtml || !overflowHtml.trim()) return;
+
+    setManuscript((prev) => {
+      const fromPage = prev.pages[fromPageId];
+      if (!fromPage) return prev;
+
+      const chapter = prev.chapters.find((c) => c.id === fromPage.chapterId);
+      if (!chapter) return prev;
+
+      const pageIndexInChapter = chapter.pageIds.indexOf(fromPageId);
+      const hasNextPageInChapter = pageIndexInChapter >= 0 && pageIndexInChapter < chapter.pageIds.length - 1;
+
+      if (hasNextPageInChapter) {
+        // Next page already exists in this chapter! Prepend the overflow content
+        const nextPageId = chapter.pageIds[pageIndexInChapter + 1];
+        const nextPage = prev.pages[nextPageId];
+
+        // Combine overflow: if next page only has an empty paragraph, replace it
+        let combinedHtml = overflowHtml;
+        const currentNextText = nextPage.htmlContent?.replace(/<[^>]*>/g, '').trim();
+        if (currentNextText && currentNextText.length > 0) {
+          combinedHtml = overflowHtml + nextPage.htmlContent;
+        }
+
+        return {
+          ...prev,
+          pages: {
+            ...prev.pages,
+            [nextPageId]: {
+              ...nextPage,
+              htmlContent: combinedHtml,
+            },
+          },
+          activePageId: nextPageId,
+        };
+      } else {
+        // Create a new physical page right after this page!
+        const newPageId = `p-${Date.now()}`;
+
+        const newPage: BookPage = {
+          id: newPageId,
+          pageNumber: 0,
+          chapterId: chapter.id,
+          htmlContent: overflowHtml,
+          footnotes: [],
+        };
+
+        const updatedChapters = prev.chapters.map((chap) => {
+          if (chap.id !== chapter.id) return chap;
+          return {
+            ...chap,
+            pageIds: [...chap.pageIds, newPageId],
+          };
+        });
+
+        const updatedPages = recomputePageNumbers(
+          updatedChapters,
+          { ...prev.pages, [newPageId]: newPage }
+        );
+
+        return {
+          ...prev,
+          chapters: updatedChapters,
+          pages: updatedPages,
+          activePageId: newPageId,
+        };
+      }
+    });
+  }, [recomputePageNumbers]);
+
+  const navigateToPreviousPage = useCallback((currentPageId: string) => {
+    setManuscript((prev) => {
+      const allPages = Object.values(prev.pages).sort((a, b) => a.pageNumber - b.pageNumber);
+      const currentIndex = allPages.findIndex((p) => p.id === currentPageId);
+      if (currentIndex > 0) {
+        const prevPage = allPages[currentIndex - 1];
+        return {
+          ...prev,
+          activePageId: prevPage.id,
+        };
+      }
+      return prev;
+    });
+  }, []);
+
+  const navigateToNextPage = useCallback((currentPageId: string) => {
+    setManuscript((prev) => {
+      const allPages = Object.values(prev.pages).sort((a, b) => a.pageNumber - b.pageNumber);
+      const currentIndex = allPages.findIndex((p) => p.id === currentPageId);
+      if (currentIndex >= 0 && currentIndex < allPages.length - 1) {
+        const nextPage = allPages[currentIndex + 1];
+        return {
+          ...prev,
+          activePageId: nextPage.id,
+        };
+      }
+      return prev;
+    });
+  }, []);
 
   // Delete page
   const deletePage = useCallback((pageId: string) => {
@@ -330,7 +439,6 @@ export function useBookState() {
   const resetToSample = useCallback(() => {
     if (window.confirm('هل تريد استعادة نموذج الكتاب التوضيحي الافتراضي؟ سيتم الكتابة فوق التعديلات غير المحفوظة.')) {
       setManuscript(INITIAL_MANUSCRIPT);
-      setActivePageId('p-1');
     }
   }, []);
 
@@ -351,9 +459,8 @@ export function useBookState() {
     try {
       const parsed = JSON.parse(jsonString);
       if (parsed.chapters && parsed.pages) {
-        setManuscript(parsed);
-        const firstPageId = parsed.chapters[0]?.pageIds[0] || Object.keys(parsed.pages)[0] || 'p-1';
-        setActivePageId(firstPageId);
+        const firstPageId = parsed.activePageId || parsed.chapters[0]?.pageIds[0] || Object.keys(parsed.pages)[0] || 'p-1';
+        setManuscript({ ...parsed, activePageId: firstPageId });
         return true;
       }
     } catch (e) {
@@ -381,5 +488,8 @@ export function useBookState() {
     resetToSample,
     exportManuscriptJson,
     importManuscriptJson,
+    handlePageOverflow,
+    navigateToPreviousPage,
+    navigateToNextPage,
   };
 }

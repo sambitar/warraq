@@ -48,7 +48,7 @@ export const ArabicFormattingBar: React.FC<ArabicFormattingBarProps> = ({
 
   return (
     <div 
-      className="no-print border-b px-4 py-1.5 flex items-center justify-between gap-2 overflow-x-auto select-none z-30 font-ui transition-colors duration-150"
+      className="no-print border-b px-4 py-1.5 flex flex-wrap items-center justify-between gap-2 select-none relative z-30 font-ui transition-colors duration-150"
       style={{
         backgroundColor: 'var(--chrome-bg)',
         borderColor: 'var(--chrome-border)',
@@ -327,7 +327,7 @@ export const ArabicFormattingBar: React.FC<ArabicFormattingBarProps> = ({
         </button>
 
         {/* Arabic Honorifics Dropdown */}
-        <div className="relative">
+        <div className={`relative ${showHonorifics ? 'z-50' : 'z-auto'}`}>
           <button
             type="button"
             onClick={() => {
@@ -336,8 +336,8 @@ export const ArabicFormattingBar: React.FC<ArabicFormattingBarProps> = ({
             }}
             className="flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium border transition-colors"
             style={{
-              backgroundColor: 'var(--chrome-bg-subtle)',
-              borderColor: 'var(--chrome-border)',
+              backgroundColor: showHonorifics ? 'var(--chrome-hover)' : 'var(--chrome-bg-subtle)',
+              borderColor: showHonorifics ? 'var(--chrome-active-border)' : 'var(--chrome-border)',
               color: 'var(--chrome-text)',
             }}
             onMouseEnter={(e) => {
@@ -345,7 +345,7 @@ export const ArabicFormattingBar: React.FC<ArabicFormattingBarProps> = ({
               e.currentTarget.style.color = 'var(--chrome-text-hover)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--chrome-bg-subtle)';
+              e.currentTarget.style.backgroundColor = showHonorifics ? 'var(--chrome-hover)' : 'var(--chrome-bg-subtle)';
               e.currentTarget.style.color = 'var(--chrome-text)';
             }}
             title="إدراج رموز التبجيل والتصلية والترضي"
@@ -356,46 +356,54 @@ export const ArabicFormattingBar: React.FC<ArabicFormattingBarProps> = ({
           </button>
 
           {showHonorifics && (
-            <div 
-              className="absolute left-0 mt-1 w-48 border rounded-lg shadow-xl p-1 z-50 text-right"
-              style={{
-                backgroundColor: 'var(--chrome-card-bg)',
-                borderColor: 'var(--chrome-border)',
-              }}
-            >
-              {ARABIC_HONORIFICS.map((h) => (
-                <button
-                  key={h.key}
-                  type="button"
-                  onClick={() => {
-                    onInsertHonorific(h.replacement);
-                    setShowHonorifics(false);
-                  }}
-                  className="w-full flex items-center justify-between px-2.5 py-1.5 rounded text-xs transition-colors"
-                  style={{ color: 'var(--chrome-text)' }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = 'var(--chrome-hover)';
-                    e.currentTarget.style.color = 'var(--chrome-text-hover)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                    e.currentTarget.style.color = 'var(--chrome-text)';
-                  }}
-                >
-                  <span className="font-bold font-book text-sm" style={{ color: 'var(--chrome-text-heading)' }}>
-                    {h.label}
-                  </span>
-                  <span className="text-[10px]" style={{ color: 'var(--chrome-text-muted)' }}>
-                    {h.description}
-                  </span>
-                </button>
-              ))}
-            </div>
+            <>
+              {/* Invisible Backdrop overlay to close when clicking outside */}
+              <div 
+                className="fixed inset-0 z-40 bg-transparent" 
+                onClick={() => setShowHonorifics(false)}
+              />
+              <div 
+                className="absolute left-0 top-full mt-1.5 w-52 border rounded-xl shadow-2xl p-1.5 z-50 text-right max-h-80 overflow-y-auto"
+                style={{
+                  backgroundColor: 'var(--chrome-card-bg)',
+                  borderColor: 'var(--chrome-border)',
+                  boxShadow: '0 12px 28px -4px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.3)',
+                }}
+              >
+                {ARABIC_HONORIFICS.map((h) => (
+                  <button
+                    key={h.key}
+                    type="button"
+                    onClick={() => {
+                      onInsertHonorific(h.replacement);
+                      setShowHonorifics(false);
+                    }}
+                    className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs transition-colors"
+                    style={{ color: 'var(--chrome-text)' }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'var(--chrome-hover)';
+                      e.currentTarget.style.color = 'var(--chrome-text-hover)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.color = 'var(--chrome-text)';
+                    }}
+                  >
+                    <span className="font-bold font-book text-sm" style={{ color: 'var(--chrome-text-heading)' }}>
+                      {h.label}
+                    </span>
+                    <span className="text-[10px]" style={{ color: 'var(--chrome-text-muted)' }}>
+                      {h.description}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </>
           )}
         </div>
 
         {/* Citation Terms Dropdown */}
-        <div className="relative hidden xl:block">
+        <div className={`relative ${showCitationTerms ? 'z-50' : 'z-auto'}`}>
           <button
             type="button"
             onClick={() => {
@@ -404,8 +412,8 @@ export const ArabicFormattingBar: React.FC<ArabicFormattingBarProps> = ({
             }}
             className="flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium border transition-colors"
             style={{
-              backgroundColor: 'var(--chrome-bg-subtle)',
-              borderColor: 'var(--chrome-border)',
+              backgroundColor: showCitationTerms ? 'var(--chrome-hover)' : 'var(--chrome-bg-subtle)',
+              borderColor: showCitationTerms ? 'var(--chrome-active-border)' : 'var(--chrome-border)',
               color: 'var(--chrome-text)',
             }}
             onMouseEnter={(e) => {
@@ -413,7 +421,7 @@ export const ArabicFormattingBar: React.FC<ArabicFormattingBarProps> = ({
               e.currentTarget.style.color = 'var(--chrome-text-hover)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--chrome-bg-subtle)';
+              e.currentTarget.style.backgroundColor = showCitationTerms ? 'var(--chrome-hover)' : 'var(--chrome-bg-subtle)';
               e.currentTarget.style.color = 'var(--chrome-text)';
             }}
             title="مصطلحات التوثيق والهوامش السريعة"
@@ -423,36 +431,44 @@ export const ArabicFormattingBar: React.FC<ArabicFormattingBarProps> = ({
           </button>
 
           {showCitationTerms && (
-            <div 
-              className="absolute left-0 mt-1 w-44 border rounded-lg shadow-xl p-1 z-50 text-right"
-              style={{
-                backgroundColor: 'var(--chrome-card-bg)',
-                borderColor: 'var(--chrome-border)',
-              }}
-            >
-              {ARABIC_CITATION_TERMS.map((term, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => {
-                    onInsertCitationTerm(term.text);
-                    setShowCitationTerms(false);
-                  }}
-                  className="w-full text-right px-2.5 py-1.5 rounded text-xs transition-colors"
-                  style={{ color: 'var(--chrome-text)' }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = 'var(--chrome-hover)';
-                    e.currentTarget.style.color = 'var(--chrome-text-hover)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                    e.currentTarget.style.color = 'var(--chrome-text)';
-                  }}
-                >
-                  {term.label}
-                </button>
-              ))}
-            </div>
+            <>
+              {/* Invisible Backdrop overlay to close when clicking outside */}
+              <div 
+                className="fixed inset-0 z-40 bg-transparent" 
+                onClick={() => setShowCitationTerms(false)}
+              />
+              <div 
+                className="absolute left-0 top-full mt-1.5 w-48 border rounded-xl shadow-2xl p-1.5 z-50 text-right max-h-80 overflow-y-auto"
+                style={{
+                  backgroundColor: 'var(--chrome-card-bg)',
+                  borderColor: 'var(--chrome-border)',
+                  boxShadow: '0 12px 28px -4px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.3)',
+                }}
+              >
+                {ARABIC_CITATION_TERMS.map((term, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => {
+                      onInsertCitationTerm(term.text);
+                      setShowCitationTerms(false);
+                    }}
+                    className="w-full text-right px-2.5 py-1.5 rounded-lg text-xs transition-colors"
+                    style={{ color: 'var(--chrome-text)' }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'var(--chrome-hover)';
+                      e.currentTarget.style.color = 'var(--chrome-text-hover)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.color = 'var(--chrome-text)';
+                    }}
+                  >
+                    {term.label}
+                  </button>
+                ))}
+              </div>
+            </>
           )}
         </div>
 

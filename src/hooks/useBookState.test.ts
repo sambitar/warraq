@@ -45,4 +45,16 @@ describe('Book Manuscript Data Structure & Trim Sizes', () => {
     const page2Gutter = !isRectoPage2 ? waziri.marginInnerMm : waziri.marginOuterMm;
     expect(page2Gutter).toBe(waziri.marginInnerMm);
   });
+
+  it('verifies sequential page numbering and chapter page linkage', () => {
+    const chapters = INITIAL_MANUSCRIPT.chapters;
+    let expectedNumber = 1;
+    for (const chap of chapters) {
+      for (const pId of chap.pageIds) {
+        const page = INITIAL_MANUSCRIPT.pages[pId];
+        expect(page).toBeDefined();
+        expect(page.pageNumber).toBe(expectedNumber++);
+      }
+    }
+  });
 });

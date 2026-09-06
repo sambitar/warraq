@@ -29,6 +29,9 @@ export function App() {
     resetToSample,
     exportManuscriptJson,
     importManuscriptJson,
+    handlePageOverflow,
+    navigateToPreviousPage,
+    navigateToNextPage,
   } = useBookState();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -198,6 +201,9 @@ export function App() {
           onDeleteFootnote={deleteFootnote}
           onSelectPage={setActivePageId}
           onAddNewPage={addNewPage}
+          onPageOverflow={handlePageOverflow}
+          onNavigatePrevPage={navigateToPreviousPage}
+          onNavigateNextPage={navigateToNextPage}
         />
       </main>
 

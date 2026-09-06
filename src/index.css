@@ -200,14 +200,39 @@
   direction: rtl;
   text-align: justify;
   text-justify: inter-word;
+  text-align-last: right;
   font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "mkmk" 1;
   outline: none;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  word-break: normal;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.book-content-body p,
+.book-content-body div,
+.book-content-body span,
+.book-content-body h1,
+.book-content-body h2,
+.book-content-body h3,
+.book-content-body blockquote {
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .book-content-body p {
-  margin-bottom: 0;
+  margin-bottom: 0.35em;
   margin-top: 0;
   text-indent: 7mm; /* Standard Arabic publishing paragraph indent */
+  line-height: inherit;
+  min-height: 1.5em;
 }
 
 .book-content-body p:first-of-type,
@@ -261,6 +286,12 @@
   margin-bottom: 2mm;
   text-align: justify;
   text-justify: inter-word;
+  text-align-last: right;
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  box-sizing: border-box;
 }
 
 .footnote-badge {

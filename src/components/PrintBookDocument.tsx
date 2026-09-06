@@ -244,21 +244,27 @@ export const PrintBookDocument: React.FC<PrintBookDocumentProps> = ({
 
               {/* Main Body Text (متن الصفحة) */}
               <main
-                className="flex-1 flex flex-col justify-between"
+                className="flex-1 flex flex-col justify-between min-w-0 w-full overflow-hidden"
                 style={{
                   paddingTop: `${currentTrim.marginTopMm * 0.55}mm`,
                   paddingBottom: `${currentTrim.marginBottomMm * 0.4}mm`,
                   paddingRight: `${paddingRightMm}mm`,
                   paddingLeft: `${paddingLeftMm}mm`,
+                  boxSizing: 'border-box',
+                  maxWidth: '100%',
                 }}
               >
                 <div
-                  className="book-content-body flex-1 text-justify font-book leading-relaxed"
+                  className="book-content-body flex-1 text-justify font-book leading-relaxed min-w-0 w-full"
                   style={{
                     fontFamily: settings.fontFamily,
                     fontSize: `${settings.fontSizePt}pt`,
                     lineHeight: settings.lineHeight,
                     color: textColor,
+                    maxWidth: '100%',
+                    boxSizing: 'border-box',
+                    overflowWrap: 'break-word',
+                    wordWrap: 'break-word',
                   }}
                   dangerouslySetInnerHTML={{ __html: page.htmlContent }}
                 />
