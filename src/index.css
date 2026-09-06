@@ -270,27 +270,55 @@
 }
 
 /* Print Styles for exact 1-to-1 Trim Size PDF Output */
+@media screen {
+  .print-book-engine {
+    display: none !important;
+  }
+}
+
 @media print {
   body {
-    background: none !important;
+    background: #FFFFFF !important;
     padding: 0 !important;
     margin: 0 !important;
+    color: #000000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
-  .no-print {
+  /* Hide interactive web UI, desk, navbars, sidebars, interactive spread */
+  .no-print,
+  .desk-surface > header,
+  .desk-surface > div:not(.print-book-engine),
+  .desk-surface > main,
+  aside,
+  button,
+  .book-spread-container {
     display: none !important;
   }
 
-  .book-spread-container {
+  /* Display the master sequential print document */
+  .print-book-engine {
     display: block !important;
-    transform: none !important;
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    background: #FFFFFF !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
-  .book-page-wrapper {
+  .press-page-sheet {
+    display: flex !important;
+    flex-direction: column !important;
+    box-sizing: border-box !important;
     page-break-after: always !important;
     break-after: page !important;
-    box-shadow: none !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    margin: 0 auto !important;
     border: none !important;
-    margin: 0 !important;
+    box-shadow: none !important;
+    position: relative !important;
   }
 }

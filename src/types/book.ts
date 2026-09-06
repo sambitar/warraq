@@ -80,6 +80,13 @@ export interface BookSettings {
   paragraphIndent: boolean;
 }
 
+export interface PrepressOptions {
+  exportMode: 'trim_only' | 'offset_bleed_crops';
+  inkMode: 'pure_black' | 'screen_warm';
+  padSignatures: boolean;
+  paperBackground: 'white' | 'cream';
+}
+
 export interface Manuscript {
   version: string;
   metadata: BookMetadata;

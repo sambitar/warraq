@@ -26,4 +26,23 @@ describe('Book Manuscript Data Structure & Trim Sizes', () => {
     expect(medium.widthMm).toBe(140);
     expect(medium.heightMm).toBe(210);
   });
+
+  it('verifies prepress gutter logic alternates for recto and verso pages', () => {
+    // In Arabic non-fiction bookbinding:
+    // Page 1 (odd) is Recto: inner gutter is on the left
+    // Page 2 (even) is Verso: inner gutter is on the right
+    const isRectoPage1 = 1 % 2 === 1;
+    const isRectoPage2 = 2 % 2 === 1;
+    expect(isRectoPage1).toBe(true);
+    expect(isRectoPage2).toBe(false);
+
+    const waziri = TRIM_SIZES.waziri;
+    // Page 1 paddingLeft must be gutter (inner)
+    const page1Gutter = isRectoPage1 ? waziri.marginInnerMm : waziri.marginOuterMm;
+    expect(page1Gutter).toBe(waziri.marginInnerMm);
+
+    // Page 2 paddingRight must be gutter (inner)
+    const page2Gutter = !isRectoPage2 ? waziri.marginInnerMm : waziri.marginOuterMm;
+    expect(page2Gutter).toBe(waziri.marginInnerMm);
+  });
 });

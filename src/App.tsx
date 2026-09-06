@@ -7,6 +7,8 @@ import { ArabicFormattingBar } from './components/ArabicFormattingBar';
 import { BookSpread } from './components/BookSpread';
 import { SidebarChapters } from './components/SidebarChapters';
 import { PdfExportModal } from './components/PdfExportModal';
+import { PrintBookDocument } from './components/PrintBookDocument';
+import type { PrepressOptions } from './types/book';
 import { formatCitationSuperscript } from './utils/arabicTypography';
 
 export function App() {
@@ -31,6 +33,12 @@ export function App() {
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
+  const [prepressOptions, setPrepressOptions] = useState<PrepressOptions>({
+    exportMode: 'trim_only',
+    inkMode: 'pure_black',
+    padSignatures: false,
+    paperBackground: 'white',
+  });
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const currentTrim = TRIM_SIZES[manuscript.settings.trimSizeId];
@@ -222,11 +230,21 @@ export function App() {
         settings={manuscript.settings}
       />
 
-      {/* Direct PDF / Print Modal */}
+      {/* Commercial Prepress PDF Export Modal */}
       <PdfExportModal
         isOpen={isPdfModalOpen}
         onClose={() => setIsPdfModalOpen(false)}
         manuscript={manuscript}
+        options={prepressOptions}
+        onChangeOptions={(updates) =>
+          setPrepressOptions((prev) => ({ ...prev, ...updates }))
+        }
+      />
+
+      {/* Complete Sequential Prepress Print Document (Hidden on screen, renders cleanly during @media print) */}
+      <PrintBookDocument
+        manuscript={manuscript}
+        options={prepressOptions}
       />
     </div>
   );
