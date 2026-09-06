@@ -116,9 +116,24 @@ export const BookSpread: React.FC<BookSpreadProps> = ({
             onClick={handlePrevSpread}
             disabled={!canGoPrev}
             title="الصفحات السابقة"
-            className={`no-print absolute -right-16 z-30 p-3 rounded-full bg-stone-800/80 hover:bg-stone-700 text-amber-200 border border-stone-700 shadow-xl transition-all ${
+            className={`no-print absolute -right-16 z-30 p-3 rounded-full border shadow-lg transition-all ${
               !canGoPrev ? 'opacity-30 cursor-not-allowed' : 'hover:scale-110'
             }`}
+            style={{
+              backgroundColor: 'var(--chrome-bg)',
+              borderColor: 'var(--chrome-border)',
+              color: 'var(--chrome-text)',
+            }}
+            onMouseEnter={(e) => {
+              if (canGoPrev) {
+                e.currentTarget.style.backgroundColor = 'var(--chrome-hover)';
+                e.currentTarget.style.color = 'var(--chrome-text-hover)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--chrome-bg)';
+              e.currentTarget.style.color = 'var(--chrome-text)';
+            }}
           >
             <ChevronRight className="w-6 h-6" />
           </button>
@@ -185,18 +200,26 @@ export const BookSpread: React.FC<BookSpreadProps> = ({
               ) : (
                 /* Blank / Add Page placeholder for odd final page */
                 <div
-                  className="book-page-wrapper page-stack-verso flex flex-col items-center justify-center border border-dashed border-stone-600/40 select-none text-stone-500"
+                  className="book-page-wrapper page-stack-verso flex flex-col items-center justify-center border border-dashed select-none"
                   style={{
                     width: `${trimSize.widthMm}mm`,
                     height: `${trimSize.heightMm}mm`,
                     backgroundColor: paperTheme.backgroundColor,
+                    borderColor: 'var(--chrome-border)',
                   }}
                 >
-                  <p className="font-arabic text-lg mb-3">الصفحة المقابلة فارغة</p>
+                  <p className="font-book text-lg mb-3" style={{ color: 'var(--chrome-text-muted)' }}>
+                    الصفحة المقابلة فارغة
+                  </p>
                   <button
                     type="button"
                     onClick={() => onAddNewPage(rectoPage?.id)}
-                    className="flex items-center gap-2 px-4 py-2 bg-amber-900/10 hover:bg-amber-900/20 text-amber-900 rounded-md border border-amber-800/30 text-sm font-medium transition-all"
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border transition-all"
+                    style={{
+                      backgroundColor: 'var(--chrome-active-bg)',
+                      borderColor: 'var(--chrome-active-border)',
+                      color: 'var(--chrome-active-text)',
+                    }}
                   >
                     <Plus className="w-4 h-4" />
                     <span>إضافة صفحة مقابلة</span>
@@ -212,9 +235,24 @@ export const BookSpread: React.FC<BookSpreadProps> = ({
             onClick={handleNextSpread}
             disabled={!canGoNext}
             title="الصفحات التالية"
-            className={`no-print absolute -left-16 z-30 p-3 rounded-full bg-stone-800/80 hover:bg-stone-700 text-amber-200 border border-stone-700 shadow-xl transition-all ${
+            className={`no-print absolute -left-16 z-30 p-3 rounded-full border shadow-lg transition-all ${
               !canGoNext ? 'opacity-30 cursor-not-allowed' : 'hover:scale-110'
             }`}
+            style={{
+              backgroundColor: 'var(--chrome-bg)',
+              borderColor: 'var(--chrome-border)',
+              color: 'var(--chrome-text)',
+            }}
+            onMouseEnter={(e) => {
+              if (canGoNext) {
+                e.currentTarget.style.backgroundColor = 'var(--chrome-hover)';
+                e.currentTarget.style.color = 'var(--chrome-text-hover)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--chrome-bg)';
+              e.currentTarget.style.color = 'var(--chrome-text)';
+            }}
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
@@ -222,20 +260,30 @@ export const BookSpread: React.FC<BookSpreadProps> = ({
       </div>
 
       {/* Quick Bottom Spread Bar */}
-      <div className="no-print mt-6 flex items-center gap-4 bg-stone-900/90 backdrop-blur border border-stone-700/80 px-4 py-2 rounded-full text-stone-300 text-xs shadow-lg">
+      <div 
+        className="no-print mt-6 flex items-center gap-4 border px-4 py-2 rounded-full text-xs shadow-md font-ui transition-colors duration-150"
+        style={{
+          backgroundColor: 'var(--chrome-bg)',
+          borderColor: 'var(--chrome-border)',
+          color: 'var(--chrome-text)',
+        }}
+      >
         <span>
           صفحة{' '}
-          <strong className="text-amber-400">
+          <strong style={{ color: 'var(--chrome-active-text)' }}>
             {formatNumber(rectoPage?.pageNumber ?? 1, settings.numeralSystem)}
             {!isSingleMode && versoPage && ` - ${formatNumber(versoPage.pageNumber, settings.numeralSystem)}`}
           </strong>{' '}
           من {formatNumber(allPagesList.length, settings.numeralSystem)}
         </span>
-        <div className="h-3 w-px bg-stone-700" />
+        <div className="h-3 w-px" style={{ backgroundColor: 'var(--chrome-border)' }} />
         <button
           type="button"
           onClick={() => onAddNewPage(versoPage?.id || rectoPage?.id)}
-          className="flex items-center gap-1.5 text-amber-300 hover:text-amber-200 font-medium transition-colors"
+          className="flex items-center gap-1.5 font-medium transition-colors"
+          style={{ color: 'var(--chrome-text)' }}
+          onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--chrome-active-text)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--chrome-text)'; }}
         >
           <Plus className="w-3.5 h-3.5" />
           <span>إدراج صفحة جديدة</span>

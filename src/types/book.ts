@@ -63,9 +63,12 @@ export interface BookMetadata {
   editionYear?: string;
 }
 
+export type ChromeTheme = 'dark' | 'light';
+
 export interface BookSettings {
   trimSizeId: TrimSizeId;
   paperThemeId: PaperThemeId;
+  chromeTheme: ChromeTheme;
   fontFamily: ArabicFontFamily;
   fontSizePt: number;
   lineHeight: number;

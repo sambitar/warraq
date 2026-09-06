@@ -17,7 +17,14 @@ export function useBookState() {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed?.version && parsed?.pages && parsed?.chapters) {
-          return parsed;
+          return {
+            ...parsed,
+            settings: {
+              ...INITIAL_MANUSCRIPT.settings,
+              ...parsed.settings,
+              chromeTheme: parsed.settings?.chromeTheme || 'dark',
+            },
+          };
         }
       }
     } catch (e) {

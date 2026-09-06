@@ -222,11 +222,16 @@ export const PageLeaf: React.FC<PageLeafProps> = ({
       </main>
 
       {/* Quick Footnote Adder at bottom edge on hover (for seamless authoring) */}
-      <div className="absolute bottom-1 left-2 no-print opacity-0 hover:opacity-100 transition-opacity flex items-center gap-1 z-30">
+      <div className="absolute bottom-1 left-2 no-print opacity-0 hover:opacity-100 transition-opacity flex items-center gap-1 z-30 font-ui">
         <button
           type="button"
           onClick={() => onAddFootnote(page.id)}
-          className="flex items-center gap-1 px-2 py-0.5 text-xs bg-amber-900/10 hover:bg-amber-900/20 text-amber-900 rounded border border-amber-800/20"
+          className="flex items-center gap-1 px-2 py-0.5 text-xs rounded border transition-colors shadow-xs"
+          style={{
+            backgroundColor: 'var(--chrome-active-bg)',
+            borderColor: 'var(--chrome-active-border)',
+            color: 'var(--chrome-active-text)',
+          }}
           title="إضافة هامش توثيق في أسفل هذه الصفحة (Alt+F)"
         >
           <Plus className="w-3 h-3" />

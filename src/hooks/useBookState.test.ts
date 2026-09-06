@@ -11,6 +11,7 @@ describe('Book Manuscript Data Structure & Trim Sizes', () => {
     expect(firstPage).toBeDefined();
     expect(firstPage.pageNumber).toBe(1);
     expect(firstPage.footnotes.length).toBeGreaterThan(0);
+    expect(INITIAL_MANUSCRIPT.settings.chromeTheme).toBe('dark');
   });
 
   it('contains correct Waziri 17x24cm trim size specifications', () => {

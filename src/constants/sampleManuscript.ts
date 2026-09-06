@@ -12,6 +12,7 @@ export const INITIAL_MANUSCRIPT: Manuscript = {
   settings: {
     trimSizeId: 'waziri',
     paperThemeId: 'chamois',
+    chromeTheme: 'dark',
     fontFamily: 'Amiri',
     fontSizePt: 14,
     lineHeight: 1.78,

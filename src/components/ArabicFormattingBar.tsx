@@ -47,65 +47,117 @@ export const ArabicFormattingBar: React.FC<ArabicFormattingBarProps> = ({
   };
 
   return (
-    <div className="no-print bg-stone-900/95 border-b border-stone-800 text-stone-200 px-4 py-1.5 flex items-center justify-between gap-2 overflow-x-auto select-none z-30">
+    <div 
+      className="no-print border-b px-4 py-1.5 flex items-center justify-between gap-2 overflow-x-auto select-none z-30 font-ui transition-colors duration-150"
+      style={{
+        backgroundColor: 'var(--chrome-bg)',
+        borderColor: 'var(--chrome-border)',
+        color: 'var(--chrome-text)',
+      }}
+    >
       {/* Right side: Fonts & Sizes */}
       <div className="flex items-center gap-2 shrink-0">
         {/* Font Family */}
-        <div className="flex items-center gap-1 bg-stone-800 border border-stone-700 rounded-md px-2 py-1">
-          <Type className="w-3.5 h-3.5 text-amber-400" />
+        <div 
+          className="flex items-center gap-1.5 border rounded-md px-2 py-1"
+          style={{
+            backgroundColor: 'var(--chrome-bg-subtle)',
+            borderColor: 'var(--chrome-border)',
+          }}
+        >
+          <Type className="w-3.5 h-3.5 shrink-0" style={{ color: 'var(--chrome-text-muted)' }} />
           <select
             value={settings.fontFamily}
             onChange={(e) => onUpdateSettings({ fontFamily: e.target.value as ArabicFontFamily })}
-            className="bg-transparent text-xs text-stone-200 font-arabic focus:outline-none cursor-pointer"
+            className="bg-transparent text-xs font-medium focus:outline-none cursor-pointer"
+            style={{ color: 'var(--chrome-text)' }}
           >
-            <option value="Amiri" className="bg-stone-900">خط أميري (مطبعة بولاق)</option>
-            <option value="Scheherazade New" className="bg-stone-900">خط شهرزاد الجديد</option>
-            <option value="Traditional Arabic" className="bg-stone-900">الخط العربي التقليدي</option>
+            <option value="Amiri" style={{ backgroundColor: 'var(--chrome-bg)', color: 'var(--chrome-text)' }}>
+              خط أميري (مطبعة بولاق)
+            </option>
+            <option value="Scheherazade New" style={{ backgroundColor: 'var(--chrome-bg)', color: 'var(--chrome-text)' }}>
+              خط شهرزاد الجديد
+            </option>
+            <option value="Traditional Arabic" style={{ backgroundColor: 'var(--chrome-bg)', color: 'var(--chrome-text)' }}>
+              الخط العربي التقليدي
+            </option>
           </select>
         </div>
 
         {/* Font Size */}
-        <div className="flex items-center gap-1 bg-stone-800 border border-stone-700 rounded-md px-2 py-1">
-          <span className="text-[11px] text-stone-400">الحجم:</span>
+        <div 
+          className="flex items-center gap-1 border rounded-md px-2 py-1"
+          style={{
+            backgroundColor: 'var(--chrome-bg-subtle)',
+            borderColor: 'var(--chrome-border)',
+          }}
+        >
+          <span className="text-[11px]" style={{ color: 'var(--chrome-text-muted)' }}>الحجم:</span>
           <select
             value={settings.fontSizePt}
             onChange={(e) => onUpdateSettings({ fontSizePt: Number(e.target.value) })}
-            className="bg-transparent text-xs text-stone-200 font-mono focus:outline-none cursor-pointer"
+            className="bg-transparent text-xs font-mono focus:outline-none cursor-pointer"
+            style={{ color: 'var(--chrome-text)' }}
           >
-            <option value="11" className="bg-stone-900">11 pt</option>
-            <option value="12" className="bg-stone-900">12 pt</option>
-            <option value="13" className="bg-stone-900">13 pt (متوسط)</option>
-            <option value="14" className="bg-stone-900">14 pt (معياري وزيري)</option>
-            <option value="15" className="bg-stone-900">15 pt</option>
-            <option value="16" className="bg-stone-900">16 pt (كبير)</option>
-            <option value="17" className="bg-stone-900">17 pt</option>
+            <option value="11" style={{ backgroundColor: 'var(--chrome-bg)' }}>11 pt</option>
+            <option value="12" style={{ backgroundColor: 'var(--chrome-bg)' }}>12 pt</option>
+            <option value="13" style={{ backgroundColor: 'var(--chrome-bg)' }}>13 pt (متوسط)</option>
+            <option value="14" style={{ backgroundColor: 'var(--chrome-bg)' }}>14 pt (معياري)</option>
+            <option value="15" style={{ backgroundColor: 'var(--chrome-bg)' }}>15 pt</option>
+            <option value="16" style={{ backgroundColor: 'var(--chrome-bg)' }}>16 pt (كبير)</option>
+            <option value="17" style={{ backgroundColor: 'var(--chrome-bg)' }}>17 pt</option>
           </select>
         </div>
 
         {/* Line Height */}
-        <div className="hidden md:flex items-center gap-1 bg-stone-800 border border-stone-700 rounded-md px-2 py-1">
-          <span className="text-[11px] text-stone-400">التباعد:</span>
+        <div 
+          className="hidden md:flex items-center gap-1 border rounded-md px-2 py-1"
+          style={{
+            backgroundColor: 'var(--chrome-bg-subtle)',
+            borderColor: 'var(--chrome-border)',
+          }}
+        >
+          <span className="text-[11px]" style={{ color: 'var(--chrome-text-muted)' }}>التباعد:</span>
           <select
             value={settings.lineHeight}
             onChange={(e) => onUpdateSettings({ lineHeight: Number(e.target.value) })}
-            className="bg-transparent text-xs text-stone-200 font-mono focus:outline-none cursor-pointer"
+            className="bg-transparent text-xs font-mono focus:outline-none cursor-pointer"
+            style={{ color: 'var(--chrome-text)' }}
           >
-            <option value="1.6" className="bg-stone-900">1.6 (متقارب)</option>
-            <option value="1.7" className="bg-stone-900">1.7</option>
-            <option value="1.78" className="bg-stone-900">1.78 (قياسي مريح)</option>
-            <option value="1.9" className="bg-stone-900">1.9 (متسع للحركات)</option>
-            <option value="2.0" className="bg-stone-900">2.0</option>
+            <option value="1.6" style={{ backgroundColor: 'var(--chrome-bg)' }}>1.6 (متقارب)</option>
+            <option value="1.7" style={{ backgroundColor: 'var(--chrome-bg)' }}>1.7</option>
+            <option value="1.78" style={{ backgroundColor: 'var(--chrome-bg)' }}>1.78 (مريح)</option>
+            <option value="1.9" style={{ backgroundColor: 'var(--chrome-bg)' }}>1.9 (متسع)</option>
+            <option value="2.0" style={{ backgroundColor: 'var(--chrome-bg)' }}>2.0</option>
           </select>
         </div>
 
-        <div className="h-5 w-px bg-stone-800 mx-1" />
+        <div 
+          className="h-4 w-px mx-1" 
+          style={{ backgroundColor: 'var(--chrome-border)' }}
+        />
 
         {/* Basic Styles */}
-        <div className="flex items-center bg-stone-800 border border-stone-700 rounded-md p-0.5">
+        <div 
+          className="flex items-center border rounded-md p-0.5"
+          style={{
+            backgroundColor: 'var(--chrome-bg-subtle)',
+            borderColor: 'var(--chrome-border)',
+          }}
+        >
           <button
             type="button"
             onClick={() => executeCommand('bold')}
-            className="p-1 hover:text-amber-300 text-stone-300 rounded hover:bg-stone-700"
+            className="p-1 rounded transition-colors"
+            style={{ color: 'var(--chrome-text)' }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--chrome-hover)';
+              e.currentTarget.style.color = 'var(--chrome-text-hover)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.color = 'var(--chrome-text)';
+            }}
             title="عريض (Ctrl+B)"
           >
             <Bold className="w-3.5 h-3.5" />
@@ -113,7 +165,16 @@ export const ArabicFormattingBar: React.FC<ArabicFormattingBarProps> = ({
           <button
             type="button"
             onClick={() => executeCommand('italic')}
-            className="p-1 hover:text-amber-300 text-stone-300 rounded hover:bg-stone-700"
+            className="p-1 rounded transition-colors"
+            style={{ color: 'var(--chrome-text)' }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--chrome-hover)';
+              e.currentTarget.style.color = 'var(--chrome-text-hover)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.color = 'var(--chrome-text)';
+            }}
             title="مائل (Ctrl+I)"
           >
             <Italic className="w-3.5 h-3.5" />
@@ -121,7 +182,16 @@ export const ArabicFormattingBar: React.FC<ArabicFormattingBarProps> = ({
           <button
             type="button"
             onClick={handleHeadingClick}
-            className="p-1 hover:text-amber-300 text-stone-300 rounded hover:bg-stone-700"
+            className="p-1 rounded transition-colors"
+            style={{ color: 'var(--chrome-text)' }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--chrome-hover)';
+              e.currentTarget.style.color = 'var(--chrome-text-hover)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.color = 'var(--chrome-text)';
+            }}
             title="عنوان فصل / مبحث"
           >
             <Heading2 className="w-3.5 h-3.5" />
@@ -129,11 +199,26 @@ export const ArabicFormattingBar: React.FC<ArabicFormattingBarProps> = ({
         </div>
 
         {/* Alignment */}
-        <div className="hidden sm:flex items-center bg-stone-800 border border-stone-700 rounded-md p-0.5">
+        <div 
+          className="hidden sm:flex items-center border rounded-md p-0.5"
+          style={{
+            backgroundColor: 'var(--chrome-bg-subtle)',
+            borderColor: 'var(--chrome-border)',
+          }}
+        >
           <button
             type="button"
             onClick={() => executeCommand('justifyFull')}
-            className="p-1 hover:text-amber-300 text-stone-300 rounded hover:bg-stone-700"
+            className="p-1 rounded transition-colors"
+            style={{ color: 'var(--chrome-text)' }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--chrome-hover)';
+              e.currentTarget.style.color = 'var(--chrome-text-hover)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.color = 'var(--chrome-text)';
+            }}
             title="ضبط النص 양طرفين (Justify)"
           >
             <AlignJustify className="w-3.5 h-3.5" />
@@ -141,7 +226,16 @@ export const ArabicFormattingBar: React.FC<ArabicFormattingBarProps> = ({
           <button
             type="button"
             onClick={() => executeCommand('justifyRight')}
-            className="p-1 hover:text-amber-300 text-stone-300 rounded hover:bg-stone-700"
+            className="p-1 rounded transition-colors"
+            style={{ color: 'var(--chrome-text)' }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--chrome-hover)';
+              e.currentTarget.style.color = 'var(--chrome-text-hover)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.color = 'var(--chrome-text)';
+            }}
             title="محاذاة لليمين"
           >
             <AlignRight className="w-3.5 h-3.5" />
@@ -149,7 +243,16 @@ export const ArabicFormattingBar: React.FC<ArabicFormattingBarProps> = ({
           <button
             type="button"
             onClick={() => executeCommand('justifyCenter')}
-            className="p-1 hover:text-amber-300 text-stone-300 rounded hover:bg-stone-700"
+            className="p-1 rounded transition-colors"
+            style={{ color: 'var(--chrome-text)' }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--chrome-hover)';
+              e.currentTarget.style.color = 'var(--chrome-text-hover)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.color = 'var(--chrome-text)';
+            }}
             title="توسيط"
           >
             <AlignCenter className="w-3.5 h-3.5" />
@@ -158,15 +261,20 @@ export const ArabicFormattingBar: React.FC<ArabicFormattingBarProps> = ({
       </div>
 
       {/* Center & Left: Scholarly Arabic Macro Tools */}
-      <div className="flex items-center gap-2 shrink-0">
-        {/* Footnote Citation Insertion */}
+      <div className="flex items-center gap-1.5 shrink-0">
+        {/* Footnote Citation Insertion (State/Action Tool) */}
         <button
           type="button"
           onClick={onInsertFootnote}
-          className="flex items-center gap-1.5 px-3 py-1 bg-amber-900/40 hover:bg-amber-900/60 text-amber-200 border border-amber-800/60 rounded-md text-xs font-semibold shadow-sm transition-all active:scale-95"
+          className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold border transition-all active:scale-97"
+          style={{
+            backgroundColor: 'var(--chrome-active-bg)',
+            borderColor: 'var(--chrome-active-border)',
+            color: 'var(--chrome-active-text)',
+          }}
           title="إدراج رقم إحالة هامش في المتن وفي حاشية الصفحة (Alt+F)"
         >
-          <BookMarked className="w-3.5 h-3.5 text-amber-400" />
+          <BookMarked className="w-3.5 h-3.5" />
           <span>إدراج هامش</span>
         </button>
 
@@ -174,21 +282,47 @@ export const ArabicFormattingBar: React.FC<ArabicFormattingBarProps> = ({
         <button
           type="button"
           onClick={onInsertQuranVerse}
-          className="flex items-center gap-1 px-2.5 py-1 bg-emerald-950/60 hover:bg-emerald-900/60 text-emerald-200 border border-emerald-800/60 rounded-md text-xs font-medium transition-all"
-          title="إحاطة النص المحدد بأقواس الآيات القرآنية المزهرة ﴿ ﴾"
+          className="flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium border transition-colors"
+          style={{
+            backgroundColor: 'var(--chrome-bg-subtle)',
+            borderColor: 'var(--chrome-border)',
+            color: 'var(--chrome-text)',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = 'var(--chrome-hover)';
+            e.currentTarget.style.color = 'var(--chrome-text-hover)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'var(--chrome-bg-subtle)';
+            e.currentTarget.style.color = 'var(--chrome-text)';
+          }}
+          title="إحاطة النص بأقواس الآيات ﴿ ﴾"
         >
-          <span className="text-emerald-400 font-bold">﴿ ﴾</span>
-          <span>آية قرآنية</span>
+          <span className="font-bold">﴿ ﴾</span>
+          <span>آية</span>
         </button>
 
         {/* Arabic Quotation Insertion */}
         <button
           type="button"
           onClick={onInsertArabicQuote}
-          className="flex items-center gap-1 px-2.5 py-1 bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-700 rounded-md text-xs font-medium transition-all"
-          title="إحاطة النص المحدد بعلامتي التنصيص العربية « »"
+          className="flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium border transition-colors"
+          style={{
+            backgroundColor: 'var(--chrome-bg-subtle)',
+            borderColor: 'var(--chrome-border)',
+            color: 'var(--chrome-text)',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = 'var(--chrome-hover)';
+            e.currentTarget.style.color = 'var(--chrome-text-hover)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'var(--chrome-bg-subtle)';
+            e.currentTarget.style.color = 'var(--chrome-text)';
+          }}
+          title="إحاطة النص بعلامتي التنصيص العربية « »"
         >
-          <Quote className="w-3.5 h-3.5 text-amber-400" />
+          <Quote className="w-3.5 h-3.5" />
           <span>اقتباس « »</span>
         </button>
 
@@ -200,16 +334,35 @@ export const ArabicFormattingBar: React.FC<ArabicFormattingBarProps> = ({
               setShowHonorifics(!showHonorifics);
               setShowCitationTerms(false);
             }}
-            className="flex items-center gap-1 px-2 py-1 bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-700 rounded-md text-xs font-medium transition-all"
+            className="flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium border transition-colors"
+            style={{
+              backgroundColor: 'var(--chrome-bg-subtle)',
+              borderColor: 'var(--chrome-border)',
+              color: 'var(--chrome-text)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--chrome-hover)';
+              e.currentTarget.style.color = 'var(--chrome-text-hover)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--chrome-bg-subtle)';
+              e.currentTarget.style.color = 'var(--chrome-text)';
+            }}
             title="إدراج رموز التبجيل والتصلية والترضي"
           >
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <Sparkles className="w-3.5 h-3.5" style={{ color: 'var(--chrome-text-muted)' }} />
             <span>الرموز والصلوات</span>
-            <ChevronDown className="w-3 h-3 text-stone-400" />
+            <ChevronDown className="w-3 h-3" style={{ color: 'var(--chrome-text-muted)' }} />
           </button>
 
           {showHonorifics && (
-            <div className="absolute left-0 mt-1 w-48 bg-stone-900 border border-stone-700 rounded-lg shadow-2xl p-1 z-50 text-right">
+            <div 
+              className="absolute left-0 mt-1 w-48 border rounded-lg shadow-xl p-1 z-50 text-right"
+              style={{
+                backgroundColor: 'var(--chrome-card-bg)',
+                borderColor: 'var(--chrome-border)',
+              }}
+            >
               {ARABIC_HONORIFICS.map((h) => (
                 <button
                   key={h.key}
@@ -218,10 +371,23 @@ export const ArabicFormattingBar: React.FC<ArabicFormattingBarProps> = ({
                     onInsertHonorific(h.replacement);
                     setShowHonorifics(false);
                   }}
-                  className="w-full flex items-center justify-between px-2.5 py-1.5 hover:bg-stone-800 rounded text-xs text-stone-200 transition-colors"
+                  className="w-full flex items-center justify-between px-2.5 py-1.5 rounded text-xs transition-colors"
+                  style={{ color: 'var(--chrome-text)' }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--chrome-hover)';
+                    e.currentTarget.style.color = 'var(--chrome-text-hover)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.color = 'var(--chrome-text)';
+                  }}
                 >
-                  <span className="font-bold text-amber-300 font-arabic text-sm">{h.label}</span>
-                  <span className="text-[10px] text-stone-400">{h.description}</span>
+                  <span className="font-bold font-book text-sm" style={{ color: 'var(--chrome-text-heading)' }}>
+                    {h.label}
+                  </span>
+                  <span className="text-[10px]" style={{ color: 'var(--chrome-text-muted)' }}>
+                    {h.description}
+                  </span>
                 </button>
               ))}
             </div>
@@ -236,15 +402,34 @@ export const ArabicFormattingBar: React.FC<ArabicFormattingBarProps> = ({
               setShowCitationTerms(!showCitationTerms);
               setShowHonorifics(false);
             }}
-            className="flex items-center gap-1 px-2 py-1 bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-700 rounded-md text-xs font-medium transition-all"
+            className="flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium border transition-colors"
+            style={{
+              backgroundColor: 'var(--chrome-bg-subtle)',
+              borderColor: 'var(--chrome-border)',
+              color: 'var(--chrome-text)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--chrome-hover)';
+              e.currentTarget.style.color = 'var(--chrome-text-hover)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--chrome-bg-subtle)';
+              e.currentTarget.style.color = 'var(--chrome-text)';
+            }}
             title="مصطلحات التوثيق والهوامش السريعة"
           >
             <span>مصطلحات التوثيق</span>
-            <ChevronDown className="w-3 h-3 text-stone-400" />
+            <ChevronDown className="w-3 h-3" style={{ color: 'var(--chrome-text-muted)' }} />
           </button>
 
           {showCitationTerms && (
-            <div className="absolute left-0 mt-1 w-44 bg-stone-900 border border-stone-700 rounded-lg shadow-2xl p-1 z-50 text-right">
+            <div 
+              className="absolute left-0 mt-1 w-44 border rounded-lg shadow-xl p-1 z-50 text-right"
+              style={{
+                backgroundColor: 'var(--chrome-card-bg)',
+                borderColor: 'var(--chrome-border)',
+              }}
+            >
               {ARABIC_CITATION_TERMS.map((term, idx) => (
                 <button
                   key={idx}
@@ -253,7 +438,16 @@ export const ArabicFormattingBar: React.FC<ArabicFormattingBarProps> = ({
                     onInsertCitationTerm(term.text);
                     setShowCitationTerms(false);
                   }}
-                  className="w-full text-right px-2.5 py-1.5 hover:bg-stone-800 rounded text-xs text-stone-200 transition-colors"
+                  className="w-full text-right px-2.5 py-1.5 rounded text-xs transition-colors"
+                  style={{ color: 'var(--chrome-text)' }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--chrome-hover)';
+                    e.currentTarget.style.color = 'var(--chrome-text-hover)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.color = 'var(--chrome-text)';
+                  }}
                 >
                   {term.label}
                 </button>
@@ -270,11 +464,24 @@ export const ArabicFormattingBar: React.FC<ArabicFormattingBarProps> = ({
               numeralSystem: settings.numeralSystem === 'eastern' ? 'western' : 'eastern',
             })
           }
-          className="flex items-center gap-1.5 px-2.5 py-1 bg-stone-800 hover:bg-stone-700 border border-stone-700 rounded-md text-xs text-amber-300 font-medium transition-colors"
+          className="flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium border transition-colors"
+          style={{
+            backgroundColor: 'var(--chrome-bg-subtle)',
+            borderColor: 'var(--chrome-border)',
+            color: 'var(--chrome-text)',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = 'var(--chrome-hover)';
+            e.currentTarget.style.color = 'var(--chrome-text-hover)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'var(--chrome-bg-subtle)';
+            e.currentTarget.style.color = 'var(--chrome-text)';
+          }}
           title="التبديل بين الأرقام المشرقية (١، ٢، ٣) والمغربية (1، 2، 3)"
         >
-          <Hash className="w-3 h-3 text-stone-400" />
-          <span>{settings.numeralSystem === 'eastern' ? 'أرقام: ١٢٣' : 'أرقام: 123'}</span>
+          <Hash className="w-3 h-3" style={{ color: 'var(--chrome-text-muted)' }} />
+          <span>{settings.numeralSystem === 'eastern' ? '١٢٣' : '123'}</span>
         </button>
       </div>
     </div>

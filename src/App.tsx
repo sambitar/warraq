@@ -136,9 +136,10 @@ export function App() {
   return (
     <div
       dir="rtl"
-      className="min-h-screen flex flex-col desk-surface select-text"
+      data-chrome={manuscript.settings.chromeTheme || 'dark'}
+      className="min-h-screen flex flex-col desk-surface select-text transition-colors duration-200"
       style={{
-        backgroundColor: currentPaperTheme.deskBackground,
+        backgroundColor: 'var(--desk-bg)',
       }}
     >
       {/* Hidden file input for importing JSON manuscripts */}
@@ -213,6 +214,11 @@ export function App() {
         }}
         onUpdateChapter={updateChapterDetails}
         onUpdateMetadata={updateMetadata}
+        onUpdateSettings={updateSettings}
+        onExportJson={exportManuscriptJson}
+        onImportJson={() => fileInputRef.current?.click()}
+        onPrintPdf={() => setIsPdfModalOpen(true)}
+        onResetSample={resetToSample}
         settings={manuscript.settings}
       />
 

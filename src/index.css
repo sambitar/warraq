@@ -1,15 +1,65 @@
 @import "tailwindcss";
+@import "@fontsource/cairo/index.css";
+@import "@fontsource/ibm-plex-sans-arabic/index.css";
 @import "@fontsource/amiri/index.css";
 @import "@fontsource/scheherazade-new/index.css";
 
 @layer base {
-  :root {
+  :root,
+  [data-chrome="dark"] {
     --paper-color: #F8F5EC;
     --paper-border: #E2DAC8;
     --ink-color: #1F1A16;
     --ink-secondary: #665C52;
     --ink-accent: #8B2500; /* Classical Arabic rubrication red/rust */
     --separator-color: #C4B9A5;
+    --font-ui: 'Cairo', 'IBM Plex Sans Arabic', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-book: 'Amiri', 'Scheherazade New', 'Traditional Arabic', serif;
+
+    /* Chrome Dark Mode Palette (Neutral & Low Saturation) */
+    --chrome-bg: #2B2B2B;          /* #2A2A2A to #2D2D2D (slightly lighter than #1E1E1E canvas) */
+    --chrome-bg-subtle: #242424;
+    --chrome-sidebar-bg: #252525;
+    --chrome-border: #3A3A3A;
+    --chrome-text: #B8B8B8;        /* soft muted grey at rest, not loud white */
+    --chrome-text-hover: #ECECEC;
+    --chrome-text-muted: #7E7E7E;
+    --chrome-text-heading: #D8D8D8;
+    --chrome-hover: #333333;
+    --chrome-active-bg: rgba(91, 155, 213, 0.16);
+    --chrome-active-border: #5B9BD5;
+    --chrome-active-text: #78B3E6;
+    --chrome-card-bg: #262626;
+    --chrome-card-border: #333333;
+    --desk-bg: #1E1E1E;
+  }
+
+  [data-chrome="light"] {
+    --paper-color: #F8F5EC;
+    --paper-border: #E2DAC8;
+    --ink-color: #1F1A16;
+    --ink-secondary: #665C52;
+    --ink-accent: #8B2500;
+    --separator-color: #C4B9A5;
+    --font-ui: 'Cairo', 'IBM Plex Sans Arabic', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-book: 'Amiri', 'Scheherazade New', 'Traditional Arabic', serif;
+
+    /* Chrome Light Mode Palette (Neutral & Low Saturation) */
+    --chrome-bg: #EFECE6;          /* #F0EEE9 to #EDEBE6 (slightly darker than warm-white canvas) */
+    --chrome-bg-subtle: #E6E3DC;
+    --chrome-sidebar-bg: #F5F3EF;  /* barely distinct from canvas */
+    --chrome-border: #DDD9D2;      /* subtle, not black hairlines */
+    --chrome-text: #5C5A55;        /* soft charcoal, not pure black */
+    --chrome-text-hover: #22211F;
+    --chrome-text-muted: #8E8B83;
+    --chrome-text-heading: #383632;
+    --chrome-hover: #E4E1DA;       /* very light tint */
+    --chrome-active-bg: rgba(74, 123, 166, 0.12);
+    --chrome-active-border: #4A7BA6;
+    --chrome-active-text: #3D6B8A;  /* calm muted blue */
+    --chrome-card-bg: #FFFFFF;
+    --chrome-card-border: #DDD9D2;
+    --desk-bg: #E2DFD7;
   }
 
   * {
@@ -18,23 +68,38 @@
 
   body {
     direction: rtl;
-    background-color: #141619;
+    background-color: var(--desk-bg);
     color: var(--ink-color);
-    font-family: 'Amiri', 'Scheherazade New', 'Traditional Arabic', serif;
+    font-family: var(--font-ui);
     margin: 0;
     padding: 0;
     overflow-x: hidden;
     user-select: text;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+
+  /* Form controls and UI elements use clean sans-serif UI typography */
+  button, input, select, textarea, optgroup {
+    font-family: inherit;
+  }
+}
+
+.font-ui {
+  font-family: var(--font-ui) !important;
+}
+
+.font-book {
+  font-family: var(--font-book) !important;
 }
 
 /* Desk environment background pattern */
 .desk-surface {
-  background-color: #17191d;
+  background-color: var(--desk-bg);
   background-image: 
-    radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.04) 0%, transparent 70%),
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.03) 0%, transparent 70%),
+    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
   background-size: 100% 100%, 32px 32px, 32px 32px;
 }
 
